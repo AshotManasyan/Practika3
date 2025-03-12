@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интернет-магазин</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+      .product-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 10px;
+        width: 300px;
+        display: inline-block;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .product-card h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+      .product-card p {
+        margin: 5px 0;
+        color: #555;
+      }
+      .product-card .price {
+        font-weight: bold;
+        color: #333;
+      }
+      .category {
+        font-style: italic;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Каталог товаров</h1>
+    <div id="products-container">
+      <!-- Товары будут загружены сюда -->
+    </div>
+
+    <script>
+      // Загрузка товаров из JSON
+      fetch("/products")
+        .then((response) => response.json())
+        .then((data) => {
+          const container = document.getElementById("products-container");
+          data.forEach((product) => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p class="category">Категория: ${product.category.join(
+                          ", "
+                        )}</p>
+                        <p class="price">Цена: $${product.price}</p>
+                        <p>${product.description}</p>
+                    `;
+            container.appendChild(card);
+          });
+        })
+        .catch((error) => console.error("Ошибка загрузки товаров:", error));
+    </script>
+  </body>
+</html>
